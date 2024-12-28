@@ -33,15 +33,6 @@ def provision(vm, role, node_num)
       # Required to use the private network configured above
       extra_server_args: "--node-external-ip #{node_ip} --flannel-iface eth1", 
       extra_agent_args: "--node-external-ip #{node_ip} --flannel-iface eth1",
-      # Airgap setup, left as reference
-      # airgap_dir: "./my_airgap",
-      # Optional, left as reference for ruby-ansible syntax
-      # extra_service_envs: [ "NO_PROXY='localhost'" ],
-      # server_config_yaml: <<~YAML
-      #   write-kubeconfig-mode: 644
-      #   kube-apiserver-arg:
-      #     - advertise-port=1234
-      # YAML
     }
   end
 end
