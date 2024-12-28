@@ -39,7 +39,7 @@
         INSTALL_K3S_VERSION: "{{ k3s_version }}"
       changed_when: true
 
-- name: Add K3s autocomplete to user bashrc
+- name: Add k3s autocomplete to user bashrc
   ansible.builtin.lineinfile:
     path: "~{{ ansible_user }}/.bashrc"
     regexp: '\.\s+<\(k3s completion bash\)'
@@ -62,7 +62,7 @@
 - name: Init first server node
   when: inventory_hostname == groups[server_group][0]
   block:
-    - name: Copy K3s service file [Single]
+    - name: Copy k3s service file [Single]
       when: groups[server_group] | length == 1 or use_external_database
       ansible.builtin.template:
         src: "k3s-single.service.j2"
@@ -72,7 +72,7 @@
         mode: "0644"
       register: service_file_single
 
-    - name: Copy K3s service file [HA]
+    - name: Copy k3s service file [HA]
       when:
         - groups[server_group] | length > 1
         - not use_external_database
@@ -106,7 +106,7 @@
         line: "K3S_TOKEN={{ token }}"
       when: token is defined
 
-    - name: Restart K3s service
+    - name: Restart k3s service
       when:
         - ansible_facts.services['k3s.service'] is defined
         - ansible_facts.services['k3s.service'].state == 'running'
@@ -116,7 +116,7 @@
         daemon_reload: true
         state: restarted
 
-    - name: Enable and check K3s service
+    - name: Enable and check k3s service
       when: ansible_facts.services['k3s.service'] is not defined or ansible_facts.services['k3s.service'].state != 'running'
       ansible.builtin.systemd:
         name: k3s
@@ -147,7 +147,7 @@
         remote_src: true
       register: copy_k3s_yaml_file
 
-    - name: Apply K3S kubeconfig to control node
+    - name: Apply k3s kubeconfig to control node
       when:
         - kubectl_installed.rc == 0
         - copy_k3s_yaml_file.changed
@@ -228,7 +228,7 @@
       with_items:
         - "K3S_TOKEN={{ token }}"
 
-    - name: Copy K3s service file [HA]
+    - name: Copy k3s service file [HA]
       when: not use_external_database
       ansible.builtin.template:
         src: "k3s-ha.service.j2"
@@ -238,7 +238,7 @@
         mode: "0644"
       register: service_file_ha
 
-    - name: Copy K3s service file [External DB]
+    - name: Copy k3s service file [External DB]
       when: use_external_database
       ansible.builtin.template:
         src: "k3s-single.service.j2"
@@ -258,7 +258,7 @@
         daemon_reload: true
         state: restarted
 
-    - name: Enable and check K3s service
+    - name: Enable and check k3s service
       when: ansible_facts.services['k3s.service'] is not defined or ansible_facts.services['k3s.service'].state != 'running'
       ansible.builtin.systemd:
         name: k3s

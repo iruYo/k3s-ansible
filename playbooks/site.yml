@@ -7,13 +7,13 @@
     - role: prereq
     - role: raspberrypi
 
-- name: Setup K3S server
+- name: Setup k3s server
   hosts: server
   become: true
   roles:
     - role: k3s_server
 
-- name: Setup K3S agent
+- name: Setup k3s agent
   hosts: agent
   become: true
   roles:
